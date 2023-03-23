@@ -16,9 +16,9 @@ match = int(input("Match Poing: "))
 missMatch = int(input("Missmatch Point: "))
 gap = int(input("Gap Poing: "))
 
-string1, string2, matrix = needleman_wunshch_global_alignment(string_one, string_two, match, missMatch, gap)
-print_needleman_wunsch_matrix(matrix, len(string_one), len(string_two))
-print(string1, string2, sep='\n', end='\n\n')
+# string1, string2, matrix = needleman_wunshch_global_alignment(string_one, string_two, match, missMatch, gap)
+# print_needleman_wunsch_matrix(matrix, len(string_one), len(string_two))
+# print(string1, string2, sep='\n', end='\n\n')
 
 result, matrix = smith_waterman_local_alignment(string_one, string_two, match, missMatch, gap)
 print_needleman_wunsch_matrix(matrix, len(string_one), len(string_two))

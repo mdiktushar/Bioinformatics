@@ -28,7 +28,7 @@ def smith_waterman_local_alignment(string_one, string_two, match, missMatch, gap
         Smith Waterman Matrix.
     Exampel
     --------
-    needleman_wunshch_global_alignment(
+    smith_waterman_local_alignment(
         string_one(stringObject), 
         string_two(stringObject), 
         match(intObject), missMatch(intObject), gap(intObject)
