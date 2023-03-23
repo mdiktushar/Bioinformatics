@@ -39,13 +39,6 @@ def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch,
         string_two(stringObject), 
         match(intObject), missMatch(intObject), gap(intObject)
     )
-    Note
-    ---
-    The Needleman–Wunsch algorithm is still widely used for optimal global 
-    alignment, particularly when the quality of the global alignment is 
-    of the utmost importance. The algorithm assigns a score to every possible 
-    alignment, and the purpose of the algorithm is to find all possible 
-    alignments having the highest score.
     """
     
     # finding the length of the strings
@@ -225,6 +218,8 @@ def print_needleman_wunsch_matrix(matrix, length_one, length_two):
     None.
 
     '''
+    length_one += 1
+    length_two += 1
     for i in range(length_two):
         for j in range (length_one):
             print(matrix[i][j], end=' ')

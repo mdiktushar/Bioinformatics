@@ -7,6 +7,7 @@ Created on Sat Mar 11 02:20:15 2023
 """
 
 from Needleman_Wunsch_global_alignment import *
+from Smith_Waterman_local_alignment import *
 
 # Collain Function
 string_one = input("Please enter the first string: ")
@@ -17,4 +18,13 @@ gap = int(input("Gap Poing: "))
 
 string1, string2, matrix = needleman_wunshch_global_alignment(string_one, string_two, match, missMatch, gap)
 print_needleman_wunsch_matrix(matrix, len(string_one), len(string_two))
-print(string1, string2, sep='\n')
+print(string1, string2, sep='\n', end='\n\n')
+
+result, matrix = smith_waterman_local_alignment(string_one, string_two, match, missMatch, gap)
+print_needleman_wunsch_matrix(matrix, len(string_one), len(string_two))
+number = 1
+for i in result:
+    print("Solution {i}:".format(i=number))
+    print("\t", i[0])
+    print("\t", i[1])
+    number += 1
