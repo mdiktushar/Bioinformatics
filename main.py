@@ -22,9 +22,6 @@ gap = int(input("Gap Poing: "))
 
 result, matrix = smith_waterman_local_alignment(string_one, string_two, match, missMatch, gap)
 print_needleman_wunsch_matrix(matrix, len(string_one), len(string_two))
-number = 1
-for i in result:
-    print("Solution {i}:".format(i=number))
-    print("\t", i[0])
-    print("\t", i[1])
-    number += 1
+print("Solution {i}:".format(i = 1))
+print("\t", result[0])
+print("\t", result[1])
