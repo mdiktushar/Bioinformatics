@@ -22,8 +22,8 @@ def smith_waterman_local_alignment(string_one, string_two, match, missMatch, gap
         
     Returns
     -------
-    1D List
-        List contains pare of strings 
+    pare value
+        contains pare of strings 
     2D List
         Smith Waterman Matrix.
     Exampel
