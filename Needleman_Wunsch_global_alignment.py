@@ -166,7 +166,55 @@ def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch,
                     break
             i = k+1
             count -= count_
+    elif cols < rows:
+        length = len(solution_string_one)
+        count = solution_string_one.count('_')
+        i = 0
+        while count :
+            j = solution_string_one.index('_', i)
+            k = j;
+            count_ = 0
+            for f in range(j, length):
+                if solution_string_one[f] == '_':
+                    count_ += 1
+                    k += 1
+                else: 
+                    break
+            
+            for l in range(j, k):
+                if solution_string_two[l] == solution_string_one[k]:
+                    temp = list(solution_string_one)
+                    temp[l] = temp[k]
+                    temp[k] = '_'
+                    solution_string_one = "".join(temp)
+                    break
+            i = k+1
+            count -= count_
     else:
+        length = len(solution_string_two)
+        count = solution_string_two.count('_')
+        i = 0
+        while count :
+            j = solution_string_two.index('_', i)
+            k = j;
+            count_ = 0
+            for f in range(j, length):
+                if solution_string_two[f] == '_':
+                    count_ += 1
+                    k += 1
+                else: 
+                    break
+            
+            for l in range(j, k):
+                if solution_string_one[l] == solution_string_two[k]:
+                    temp = list(solution_string_two)
+                    temp[l] = temp[k]
+                    temp[k] = '_'
+                    solution_string_two = "".join(temp)
+                    break
+            i = k+1
+            count -= count_
+            
         length = len(solution_string_one)
         count = solution_string_one.count('_')
         i = 0
