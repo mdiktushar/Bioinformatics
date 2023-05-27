@@ -68,22 +68,26 @@ def smith_waterman_local_alignment(string_one, string_two, match, missMatch, gap
             else:
                 track[i][j] = (i-1, j)
             # making the max value 0 if it is a negative value
-            if maximum > 0:
-                maxValue = max(maxValue, maximum) # finding the maximum value
+            if maximum >= 0:
+                # finding the maximum value for backtracking
+                maxValue = max(maxValue, maximum)
+                # matrix value
                 matrix[i][j] = maximum
+            elif maximum < 0:
+                track[i][j] = (None, None)
             
-    # # This will print the matrix
-    # for i in range(rows):
-    #     for j in range (cols):
-    #         print(matrix[i][j], end=' ')
-    #     print()
+    # This will print the matrix
+    for i in range(rows):
+        for j in range (cols):
+            print(matrix[i][j], end=' ')
+        print()
     
-    # # Thie will print the track matrix
-    # for i in range(rows):
-    #     for j in range (cols):
-    #         print(track[i][j], end=' ')
-    #     print()
-    # print(maxValue)
+    # Thie will print the track matrix
+    for i in range(rows):
+        for j in range (cols):
+            print(track[i][j], end=' ')
+        print()
+    print(maxValue)
     
     
     # Finding the position where the max value present
@@ -112,6 +116,8 @@ def smith_waterman_local_alignment(string_one, string_two, match, missMatch, gap
     length = max(len(string_one), len(string_two)) - 1
     
     while length :
+        if track[index_one] == None or track[index_two] == None:
+            break
         if index_one == 0 and index_two == 0:
             break
         
