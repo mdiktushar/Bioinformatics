@@ -1,62 +1,71 @@
-def is_sorted(arr):
-    """
-    Helper function to check if an array is sorted in ascending order.
-    """
-    for i in range(1, len(arr)):
-        if arr[i] < arr[i - 1]:
-            return False
-    return True
+# -*- coding: utf-8 -*-
+"""
+Created on Sun May 28 21:53:49 2023
+@author: MDTus
 
+ Implementation only considered inversions as the type of rearrangement. 
+ However, genome rearrangement problems can involve various types of 
+ rearrangements such as inversions, transpositions, fusions, and fissions. 
+ To handle a more general case, a more sophisticated algorithm is required.
+"""
 
-def reverse_subarray(arr, start, end):
-    """
-    Helper function to reverse a subarray within an array.
-    """
-    arr[start:end + 1] = reversed(arr[start:end + 1])
-    return arr
+def reverse_segment(genome, start, end):
+    """Reverses the segment between start and end indices in the genome."""
+    segment = genome[start:end + 1]
+    reversed_segment = segment[::-1]
+    genome[start:end + 1] = reversed_segment
+    return genome
 
-
-def find_breakpoints(arr):
-    """
-    Returns a list of indices where breakpoints occur in the array.
-    """
-    breakpoints = []
-    for i in range(len(arr) - 1):
-        if arr[i] + 1 != arr[i + 1]:
-            breakpoints.append(i + 1)
+def count_breakpoints(genome):
+    """Counts the number of breakpoints in the genome."""
+    breakpoints = 0
+    for i in range(len(genome) - 1):
+        if genome[i] + 1 != genome[i + 1]:
+            breakpoints += 1
     return breakpoints
 
-
-
-def breakpoint_reversal_sort(arr, max_iterations=1000):
-    """
-    Sorts an array using the Breakpoint Reversal Sort algorithm.
-    """
-    iterations = 0
-    while not is_sorted(arr):
-        breakpoints = find_breakpoints(arr)
-        if len(breakpoints) == 0:
-            # If there are no breakpoints, the array is already sorted
-            break
-        elif len(breakpoints) == 1:
-            # If there is only one breakpoint, reverse the subarray from the breakpoint to the end
-            arr = reverse_subarray(arr, breakpoints[0] - 1, len(arr) - 1)
-            iterations += 1
+def breakpoint_reversal_sort(genome):
+    """Performs breakpoint reversal sort on the genome."""
+    print("Original genome:", genome)
+    breakpoints = count_breakpoints(genome)
+    print("Initial breakpoints:", breakpoints)
+    step = 1
+    
+    while breakpoints > 0:
+        best_breakpoints = breakpoints
+        best_indices = None
+        
+        for i in range(len(genome) - 1):
+            for j in range(i + 1, len(genome)):
+                # Reverse the segment between indices i and j
+                reversed_genome = reverse_segment(genome[:], i, j)
+                
+                # Count the breakpoints in the reversed genome
+                reversed_breakpoints = count_breakpoints(reversed_genome)
+                
+                # Check if the reversed genome has fewer breakpoints
+                if reversed_breakpoints < best_breakpoints:
+                    best_breakpoints = reversed_breakpoints
+                    best_indices = (i, j)
+        
+        # If a better reversal is found, apply it to the genome
+        if best_indices is not None:
+            start, end = best_indices
+            genome = reverse_segment(genome, start, end)
+            breakpoints = best_breakpoints
+            print("Step", step, "- Reversed segment from index", 
+                  start, "to", end)
+            print("Current genome:", genome)
+            print("Current breakpoints:", breakpoints)
+            step += 1
         else:
-            # If there are two breakpoints, reverse the subarray between the first two breakpoints
-            arr = reverse_subarray(arr, breakpoints[0] - 1, breakpoints[1] - 1)
-            iterations += 1
-        if iterations >= max_iterations:
-            # If the number of iterations exceeds the maximum allowed, terminate to avoid infinite loop
-            print("Maximum iterations reached. Terminating to avoid infinite loop.")
             break
+    
+    return genome
 
-    return arr
+# Example usage
+genome = [5, 4, 3, 2, 1]
 
+sorted_genome = breakpoint_reversal_sort(genome)
+print(sorted_genome)
 
-# Example usage:
-# arr = [1, 3, 2, 4, 5]
-arr = [5, 4, 3, 2, 1]
-print("Original array:", arr)
-sorted_arr = breakpoint_reversal_sort(arr, max_iterations=1000000)  # You can adjust the maximum allowed iterations
-print("Sorted array:", sorted_arr)

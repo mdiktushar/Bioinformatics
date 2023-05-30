@@ -5,7 +5,8 @@ Created on Mon Mar 20 22:20:37 2023
 @author: MDTus
 
 """
-def smith_waterman_local_alignment(string_one, string_two, match, missMatch, gap):
+def smith_waterman_local_alignment(string_one, string_two, 
+                                   match, missMatch, gap):
     """
     Parameters
     ----------
@@ -76,18 +77,18 @@ def smith_waterman_local_alignment(string_one, string_two, match, missMatch, gap
             elif maximum < 0:
                 track[i][j] = (None, None)
             
-    # This will print the matrix
-    for i in range(rows):
-        for j in range (cols):
-            print(matrix[i][j], end=' ')
-        print()
+    # # This will print the matrix
+    # for i in range(rows):
+    #     for j in range (cols):
+    #         print(matrix[i][j], end=' ')
+    #     print()
     
-    # Thie will print the track matrix
-    for i in range(rows):
-        for j in range (cols):
-            print(track[i][j], end=' ')
-        print()
-    print(maxValue)
+    # # Thie will print the track matrix
+    # for i in range(rows):
+    #     for j in range (cols):
+    #         print(track[i][j], end=' ')
+    #     print()
+    # print(maxValue)
     
     
     # Finding the position where the max value present
@@ -210,5 +211,47 @@ def smith_waterman_local_alignment(string_one, string_two, match, missMatch, gap
     
     result = (solution_string_one, solution_string_two)
     
-        
     return result, matrix
+
+# printing Matrix function
+def print_needleman_wunsch_matrix(matrix, length_one, length_two):
+    '''
+    Parameters
+    ----------
+    matrix : 2D list
+        Needleman–Wunsch Matrix.
+    length_one : Int
+        lenth of the first string.
+    length_two : int
+        length of the second string.
+
+    Returns
+    -------
+    None.
+
+    '''
+    length_one += 1
+    length_two += 1
+    for i in range(length_two):
+        for j in range(length_one):
+            print(matrix[i][j], end=' ')
+        print()
+    print()
+
+# .....................................................................
+
+# Collain Function
+string_one = input("Please enter the first string: ")
+string_two = input("Please enter the second string: ")
+match = int(input("Match Poing: "))
+missMatch = int(input("Missmatch Point: "))
+gap = int(input("Gap Poing: "))
+
+result, matrix = smith_waterman_local_alignment(string_one, string_two, match, 
+                                                missMatch, gap)
+print("\nThe Metrix:")
+print_needleman_wunsch_matrix(matrix, len(string_one), len(string_two))
+print("Solution {i}:".format(i = 1))
+print("\t", result[0])
+print("\t", result[1])
+

@@ -9,7 +9,10 @@ Project: Needleman-Wunsch Global Alignment
 ------------------------------------------
 
 """
-def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch, gap):
+
+
+def needleman_wunshch_global_alignment(string_one, string_two, match, 
+                                       missMatch, gap):
     """
     Parameters
     ----------
@@ -23,7 +26,7 @@ def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch,
         Point if miss matched.
     gap : Int
         point if a gap.
-        
+
     Returns
     -------
     string
@@ -40,10 +43,10 @@ def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch,
         match(intObject), missMatch(intObject), gap(intObject)
     )
     """
-    
+
     # finding the length of the strings
     cols, rows = (len(string_one)+1, len(string_two)+1)
-    
+
     # Defineng Metrix
     matrix = [[None for i in range(cols)] for j in range(rows)]
     # Matrix for back traking
@@ -51,51 +54,48 @@ def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch,
     # Creating string use token
     token1 = list(range(cols-1))
     token2 = list(range(rows-1))
-    
-        
+
     # Processing the first row and the first column of the matrix
     matrix[0][0] = 0
     for i in range(rows):
-        for j in range (cols):
+        for j in range(cols):
             if i == 0 and j > 0:
                 matrix[i][j] = matrix[i][j-1] + gap
             if i > 0 and j == 0:
                 matrix[i][j] = matrix[i-1][j] + gap
             # print(matrix[i][j], end=' ')
         # print()
-    
-    
+
     # Calculating the Needleman-Wunsch matrix
     for i in range(1, rows):
         for j in range(1, cols):
-            if string_two[i-1] == string_one[j-1] :
+            if string_two[i-1] == string_one[j-1]:
                 corner = ('corner', matrix[i-1][j-1] + match)
             else:
                 corner = ('corner', matrix[i-1][j-1] + missMatch)
             left = ('left', matrix[i][j-1] + gap)
             top = ('top', matrix[i-1][j] + gap)
             maximum = max(corner[1], left[1], top[1])
-            if maximum == corner[1] :
+            if maximum == corner[1]:
                 track[i][j] = (i-1, j-1)
             elif maximum == left[1]:
                 track[i][j] = (i, j-1)
             else:
                 track[i][j] = (i-1, j)
             matrix[i][j] = maximum
-            
+
     # This will print the matrix
     # for i in range(rows):
     #     for j in range (cols):
     #         print(matrix[i][j], end=' ')
     #     print()
-    
+
     # Thie will print the track matrix
     # for i in range(rows):
     #     for j in range (cols):
     #         print(track[i][j], end=' ')
     #     print()
-            
-    
+
     # Back Tracking
     solution_string_one = string_one[cols-2]
     solution_string_two = string_two[rows-2]
@@ -103,60 +103,58 @@ def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch,
     token2[token2.index(rows-2)] = None
     index_one = track[rows-1][cols-1][1]
     index_two = track[rows-1][cols-1][0]
-    
+
     length = max(len(string_one), len(string_two)) - 1
-    
-    while length :
-        if (index_one - 1) in token1 :
+
+    while length:
+        if (index_one - 1) in token1:
             solution_string_one = (
                 string_one[index_one - 1] + solution_string_one
             )
             index = token1.index((index_one - 1))
             token1[index] = None
-        else :
+        else:
             solution_string_one = '_' + solution_string_one
-        
-        if (index_two - 1) in token2 :
+
+        if (index_two - 1) in token2:
             solution_string_two = (
                 string_two[index_two - 1] + solution_string_two
             )
             index = token2.index((index_two - 1))
             token2[index] = None
-        else :
+        else:
             solution_string_two = '_' + solution_string_two
-        
-       
+
         temp1 = index_one
         temp2 = index_two
-        
-        if temp1 and temp2 :
+
+        if temp1 and temp2:
             index_one = track[temp2][temp1][1]
             index_two = track[temp2][temp1][0]
         else:
             break
-            
+
         length -= 1
-    
-    
+
     # Minimizing Cost
     cols -= 1
     rows -= 1
-    
-    if (cols > rows) :
+
+    if (cols > rows):
         length = len(solution_string_two)
         count = solution_string_two.count('_')
         i = 0
-        while count :
+        while count:
             j = solution_string_two.index('_', i)
-            k = j;
+            k = j
             count_ = 0
             for f in range(j, length):
                 if solution_string_two[f] == '_':
                     count_ += 1
                     k += 1
-                else: 
+                else:
                     break
-            
+
             for l in range(j, k):
                 if solution_string_one[l] == solution_string_two[k]:
                     temp = list(solution_string_two)
@@ -170,17 +168,17 @@ def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch,
         length = len(solution_string_one)
         count = solution_string_one.count('_')
         i = 0
-        while count :
+        while count:
             j = solution_string_one.index('_', i)
-            k = j;
+            k = j
             count_ = 0
             for f in range(j, length):
                 if solution_string_one[f] == '_':
                     count_ += 1
                     k += 1
-                else: 
+                else:
                     break
-            
+
             for l in range(j, k):
                 if solution_string_two[l] == solution_string_one[k]:
                     temp = list(solution_string_one)
@@ -194,17 +192,17 @@ def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch,
         length = len(solution_string_two)
         count = solution_string_two.count('_')
         i = 0
-        while count :
+        while count:
             j = solution_string_two.index('_', i)
-            k = j;
+            k = j
             count_ = 0
             for f in range(j, length):
                 if solution_string_two[f] == '_':
                     count_ += 1
                     k += 1
-                else: 
+                else:
                     break
-            
+
             for l in range(j, k):
                 if solution_string_one[l] == solution_string_two[k]:
                     temp = list(solution_string_two)
@@ -214,21 +212,21 @@ def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch,
                     break
             i = k+1
             count -= count_
-            
+
         length = len(solution_string_one)
         count = solution_string_one.count('_')
         i = 0
-        while count :
+        while count:
             j = solution_string_one.index('_', i)
-            k = j;
+            k = j
             count_ = 0
             for f in range(j, length):
                 if solution_string_one[f] == '_':
                     count_ += 1
                     k += 1
-                else: 
+                else:
                     break
-            
+
             for l in range(j, k):
                 if solution_string_two[l] == solution_string_one[k]:
                     temp = list(solution_string_one)
@@ -238,14 +236,13 @@ def needleman_wunshch_global_alignment(string_one, string_two, match, missMatch,
                     break
             i = k+1
             count -= count_
-            
-            
+
     temp1 = list(solution_string_one)
     temp2 = list(solution_string_two)
-    
+
     solution_string_one = " ".join(temp1)
     solution_string_two = " ".join(temp2)
-    
+
     return solution_string_one, solution_string_two, matrix
 
 
@@ -269,9 +266,26 @@ def print_needleman_wunsch_matrix(matrix, length_one, length_two):
     length_one += 1
     length_two += 1
     for i in range(length_two):
-        for j in range (length_one):
+        for j in range(length_one):
             print(matrix[i][j], end=' ')
         print()
     print()
 
+# ..........................................................................
+
+# Collain Function
+string_one = input("Please enter the first string: ")
+string_two = input("Please enter the second string: ")
+match = int(input("Match Poing: "))
+missMatch = int(input("Missmatch Point: "))
+gap = int(input("Gap Poing: "))
+
+string1, string2, matrix = needleman_wunshch_global_alignment(string_one, 
+                                                              string_two, 
+                                                              match, 
+                                                              missMatch, gap)
+print("\nThe Metrix:")
+print_needleman_wunsch_matrix(matrix, len(string_one), len(string_two))
+print("Result:")
+print(string1, string2, sep='\n', end='\n\n')
 

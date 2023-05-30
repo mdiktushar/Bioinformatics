@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun May 28 21:53:49 2023
+@author: MDTus
+"""
+
 import math
 
 def partial_Digest(L, n):
@@ -61,3 +67,4 @@ n = (1 + delta) / 2
 
 solution = partial_Digest(L, int(n))
 print(solution)
+
